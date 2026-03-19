@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Anzeigetafel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Khand:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --fcu-red: #e30713;
+        --fcu-yellow: #fddd00;
+        --board-white: #ffffff;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: var(--fcu-red);
+        font-family: "Khand", sans-serif;
+        cursor: none;
+      }
+
+      .screen {
+        display: none;
+        width: 100%;
+        height: 100%;
+        background: var(--fcu-red);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 3% 4%;
+      }
+
+      .screen.visible {
+        display: flex;
+      }
+
+      .stadium-name {
+        text-align: center;
+        font-size: 5.5vw;
+        font-weight: 700;
+        color: var(--fcu-yellow);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        line-height: 1.1;
+      }
+
+      .match-time {
+        text-align: center;
+        font-size: 3.5vw;
+        font-weight: 600;
+        color: var(--fcu-yellow);
+        letter-spacing: 0.05em;
+        margin-top: 0.5vh;
+      }
+
+      .score-row {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        margin: 1.5vh 0;
+      }
+
+      .team-logo {
+        width: 15vw;
+        height: 15vw;
+        max-width: 340px;
+        max-height: 340px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+
+      .team-logo img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+      }
+
+      .score-display {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: 1;
+      }
+
+      .score-num {
+        font-size: 18vw;
+        font-weight: 700;
+        color: var(--board-white);
+        line-height: 1;
+        min-width: 12vw;
+        text-align: center;
+      }
+
+      .score-colon {
+        font-size: 16vw;
+        font-weight: 700;
+        color: var(--board-white);
+        line-height: 1;
+        margin: 0 -0.5vw;
+      }
+
+      .bottom-bar,
+      .attendance-bottom {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 2.5vw;
+        border-top: 2px solid rgba(253, 221, 0, 0.25);
+        padding-top: 1.5vh;
+        margin-top: 0.5vh;
+      }
+
+      .spieltag,
+      .match-date,
+      .runde-text {
+        font-size: 2.6vw;
+        font-weight: 700;
+        color: var(--board-white);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+
+      .league-logo {
+        height: 7vh;
+        width: auto;
+      }
+
+      .attendance-label {
+        text-align: center;
+        font-size: 3.2vw;
+        font-weight: 700;
+        color: var(--board-white);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-top: 0.5vh;
+      }
+
+      .attendance-number {
+        text-align: center;
+        font-size: 17vw;
+        font-weight: 700;
+        color: var(--board-white);
+        line-height: 1.05;
+        margin: 1vh 0;
+      }
+      .liga {
+        height: 7vh;
+        width: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ========== SCORE SCREEN ========== -->
+    <div id="screen-score" class="screen visible" onclick="nextScreen()">
+      <div class="stadium-name" id="stadiumName">
+        Stadion An Der Alten Försterei
+      </div>
+      <div class="match-time" id="matchTime">90:00</div>
+
+      <div class="score-row">
+        <div class="team-logo">
+          <img src="fcu.png" alt="UNVEU" />
+        </div>
+        <div class="score-display">
+          <span class="score-num" id="homeScore">3</span>
+          <span class="score-colon">:</span>
+          <span class="score-num" id="awayScore">0</span>
+        </div>
+        <div class="team-logo">
+          <img id="awayLogo" src="fcu.png" alt="Away" />
+        </div>
+      </div>
+
+      <div class="bottom-bar">
+        <span class="spieltag" id="spieltagText">Spieltag 05</span>
+        <img class="liga" src="bl.png" alt="liga" />
+        <span class="match-date" id="matchDate">29.09.2024</span>
+      </div>
+    </div>
+
+    <!-- ========== ATTENDANCE SCREEN ========== -->
+    <div id="screen-attendance" class="screen" onclick="nextScreen()">
+      <div class="stadium-name" id="stadiumName2">
+        Stadion An Der Alten Försterei
+      </div>
+      <div class="attendance-label">Offizielle Zuschauerzahl</div>
+      <div class="attendance-number" id="attendanceNumber">4.186</div>
+
+      <div class="attendance-bottom">
+        <span class="runde-text" id="roundText">2. Runde</span>
+        <img class="liga" src="bl.png" alt="liga" />
+        <span class="runde-text" id="attendanceDate">08.09.2024</span>
+      </div>
+    </div>
+
+    <script>
+      // ==========================================
+      // CONFIGURATION
+      // ==========================================
+      var CONFIG = {
+        stadiumName: "Stadion An Der Alten Försterei",
+        matchTime: "90:00",
+        homeScore: 3,
+        awayScore: 0,
+        homeLogo: null,
+        awayLogo:
+          "fcu.png",
+        spieltag: "Spieltag 05",
+        matchDate: "29.09.2024",
+        leagueLogo: null,
+        attendanceCount: "4.186",
+        roundText: "2. Runde",
+        attendanceDate: "08.09.2024",
+        competitionLogo: null,
+      };
+
+      // ==========================================
+      // SCREEN NAMES IN ORDER
+      // ==========================================
+      var screens = ["score", "attendance"];
+      var currentScreen = 0;
+
+      function nextScreen() {
+        currentScreen = (currentScreen + 1) % screens.length;
+        var all = document.querySelectorAll(".screen");
+        for (var i = 0; i < all.length; i++) all[i].classList.remove("visible");
+        document
+          .getElementById("screen-" + screens[currentScreen])
+          .classList.add("visible");
+      }
+
+      function applyConfig() {
+        document.getElementById("stadiumName").textContent = CONFIG.stadiumName;
+        document.getElementById("stadiumName2").textContent =
+          CONFIG.stadiumName;
+        document.getElementById("matchTime").textContent = CONFIG.matchTime;
+        document.getElementById("homeScore").textContent = CONFIG.homeScore;
+        document.getElementById("awayScore").textContent = CONFIG.awayScore;
+        document.getElementById("spieltagText").textContent = CONFIG.spieltag;
+        document.getElementById("matchDate").textContent = CONFIG.matchDate;
+        if (CONFIG.homeLogo)
+          document.getElementById("homeLogo").src = CONFIG.homeLogo;
+        if (CONFIG.awayLogo)
+          document.getElementById("awayLogo").src = CONFIG.awayLogo;
+        if (CONFIG.leagueLogo)
+          document.getElementById("leagueLogo").src = CONFIG.leagueLogo;
+        document.getElementById("attendanceNumber").textContent =
+          CONFIG.attendanceCount;
+        document.getElementById("roundText").textContent = CONFIG.roundText;
+        document.getElementById("attendanceDate").textContent =
+          CONFIG.attendanceDate;
+        if (CONFIG.competitionLogo)
+          document.getElementById("compLogo").src = CONFIG.competitionLogo;
+      }
+
+      applyConfig();
+    </script>
+  </body>
+</html>
